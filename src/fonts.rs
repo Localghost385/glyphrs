@@ -1,5 +1,11 @@
 use std::{collections::HashMap, vec};
 
+pub fn get_fonts() -> Vec<&'static str> {
+    let fonts = define_fonts();
+
+    fonts.keys().cloned().collect()
+}
+
 pub fn define_fonts() -> HashMap<&'static str, HashMap<char, Vec<&'static str>>> {
     //██▄ █   ▄▀▄ ▄▀▀ █▄▀ ▄▀▀   █ █▄ █   ▀█▀ █   █ ▄▀▄   █   █ █▄ █ ██▀ ▄▀▀
     //█▄█ █▄▄ ▀▄▀ ▀▄▄ █ █ ▄██   █ █ ▀█    █  ▀▄▀▄▀ ▀▄▀   █▄▄ █ █ ▀█ █▄▄ ▄██

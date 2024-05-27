@@ -1,12 +1,8 @@
 use clap::*;
 
-use crate::fonts::define_fonts;
+use crate::fonts::*;
 
-fn get_fonts() -> Vec<&'static str> {
-    let fonts = define_fonts();
 
-    fonts.keys().cloned().collect()
-}
 
 pub fn clap_parse() -> ArgMatches {
     let cmd = clap::Command::new("cargo")
