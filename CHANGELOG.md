@@ -1,8 +1,11 @@
 # Changelog
 
+### v0.1.3
+ - cargo doesnt like my versioning
+
 ### v0.1.2.1
  - minor bug fix to do with testing
- 
+
 ### v0.1.2
  - restructured main conversion code
  - added testing
