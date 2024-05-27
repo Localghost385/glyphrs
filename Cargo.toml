@@ -2,6 +2,8 @@
 name = "glyphrs"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "A text art generator written in Rust"
 
 [dependencies]
 clap = "4.5.4"
