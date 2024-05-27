@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.1.6
+ - added option to have a string preceding each line, for example to comment it out. 
+
 ### v0.1.5
  - added new font (pipes)
  - optimized message generation

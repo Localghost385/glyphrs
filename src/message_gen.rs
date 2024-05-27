@@ -1,3 +1,4 @@
+
 use crate::fonts::font_handling::define_fonts;
 
 pub fn sanitize_input(input: String) -> String {
@@ -35,11 +36,15 @@ fn conserve_spaces(input: Vec<String>) -> Vec<String> {
     output
 }
 
-pub fn string_composite(characters: Vec<Vec<String>>) -> Vec<String> {
+pub fn string_composite(characters: Vec<Vec<String>>, prefix: String) -> Vec<String> {
     let mut output: Vec<String> = vec![];
 
     for _ in 0..characters[0].len() {
         output.push(String::new());
+    }
+
+    for i in 0..output.len() {
+        output[i] = prefix.to_string();
     }
 
     for character in characters {
@@ -53,14 +58,14 @@ pub fn string_composite(characters: Vec<Vec<String>>) -> Vec<String> {
     output
 }
 
-pub fn convert_input(mut input: String, font: String) -> Vec<String> {
+pub fn convert_input(mut input: String, font: String, prefix: String) -> Vec<String> {
     input = sanitize_input(input);
 
     let mut map_values: Vec<Vec<String>> = vec![];
     for c in input.chars() {
         map_values.push(map_search(c, &font));
     }
-    let output: Vec<String> = string_composite(map_values);
+    let output: Vec<String> = string_composite(map_values, prefix);
 
     output
 }
@@ -101,7 +106,7 @@ pub mod tests {
             for c in input.chars() {
                 map_values.push(map_search(c, &font.to_string()));
             }
-            let output: Vec<String> = string_composite(map_values);
+            let output: Vec<String> = string_composite(map_values, "".to_string());
             let expected: Vec<String> = expected_map.get(&font).unwrap().clone();
 
             assert_eq!(output, expected);

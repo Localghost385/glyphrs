@@ -26,8 +26,17 @@ pub fn clap_parse() -> ArgMatches {
             .short('f')
             .default_value("blocks_in_two_lines")
             .value_parser(string_to_str(get_fonts()))
+            .help_heading("Output")
             .help("set the font"),
 
+        )
+        .arg(
+            Arg::new("prefix")
+            .long("prefix")
+            .short('p')
+            .default_value("")
+            .help_heading("Output")
+            .help("set the characters preceding each line, for example \"# \""),
         )
         .arg(
             Arg::new("version")
