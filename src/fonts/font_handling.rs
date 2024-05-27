@@ -1,6 +1,5 @@
-use std::collections::HashMap;
 use serde::Deserialize;
-
+use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
 struct Outer {
@@ -13,9 +12,6 @@ struct Font {
     character: Vec<char>,
     key_values: Vec<Vec<String>>,
 }
-
-
-
 
 pub fn get_fonts() -> Vec<String> {
     let fonts = define_fonts();
@@ -38,7 +34,7 @@ fn get_font_file() -> &'static str {
 pub fn define_fonts() -> HashMap<String, HashMap<char, Vec<String>>> {
     let mut fonts: HashMap<String, HashMap<char, Vec<String>>> = HashMap::new();
     let contents = get_font_file();
-    let toml_value: Outer =toml::from_str(&contents).expect("Failed to parse config.toml");
+    let toml_value: Outer = toml::from_str(contents).expect("Failed to parse config.toml");
 
     for font in toml_value.fonts {
         let mut font_map: HashMap<char, Vec<String>> = HashMap::new();

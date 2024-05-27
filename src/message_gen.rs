@@ -20,6 +20,20 @@ pub fn map_search(key: char, font: &str) -> Vec<String> {
 
     value
 }
+fn conserve_spaces(input: Vec<String>) -> Vec<String> {
+    let mut output: Vec<String> = vec![];
+
+    for line in input {
+        // if every character is a space, then remove the line
+        if line.chars().all(|c| c == ' ') {
+            continue;
+        } else {
+            output.push(line);
+        }
+    }
+
+    output
+}
 
 pub fn string_composite(characters: Vec<Vec<String>>) -> Vec<String> {
     let mut output: Vec<String> = vec![];
@@ -31,9 +45,10 @@ pub fn string_composite(characters: Vec<Vec<String>>) -> Vec<String> {
     for character in characters {
         for i in 0..character.len() {
             output[i] += &character[i];
-            output[i] += " ";
         }
     }
+
+    output = conserve_spaces(output);
 
     output
 }
@@ -52,18 +67,33 @@ pub fn convert_input(mut input: String, font: String) -> Vec<String> {
 
 #[cfg(test)]
 pub mod tests {
-    use std::collections::HashMap;
     use crate::{fonts::font_handling::get_fonts, message_gen::*};
+    use std::collections::HashMap;
 
     #[test]
     fn test_string_composite() {
-        let expected_map: HashMap<String, Vec<String>> = HashMap::from([(
-            "blocks_in_two_lines".to_string(),
-            vec![
-                "▀█▀ ██▀ ▄▀▀ ▀█▀   ▄▀▀ ▀█▀ █▀▄ █ █▄ █ ▄▀    ▄█ ▀█ ▀██ ".to_string(),
-                " █  █▄▄ ▄██  █    ▄██  █  █▀▄ █ █ ▀█ ▀▄█    █ █▄ ▄▄█ ".to_string(),
-            ],
-        )]);
+        let expected_map: HashMap<String, Vec<String>> = HashMap::from([
+            (
+                "blocks_in_two_lines".to_string(),
+                vec![
+                    "▀█▀ ██▀ ▄▀▀ ▀█▀   ▄▀▀ ▀█▀ █▀▄ █ █▄ █ ▄▀    ▄█ ▀█ ▀██ ".to_string(),
+                    " █  █▄▄ ▄██  █    ▄██  █  █▀▄ █ █ ▀█ ▀▄█    █ █▄ ▄▄█ ".to_string(),
+                ],
+            ),
+            (
+                "pipes".to_string(),
+                vec![
+                    " ╔╗          ╔╗        ╔╗                 ╔╗ ╔═══╗╔═══╗".to_string(),
+                    "╔╝╚╗        ╔╝╚╗      ╔╝╚╗               ╔╝║ ║╔═╗║║╔═╗║".to_string(),
+                    "╚╗╔╝╔══╗╔══╗╚╗╔╝  ╔══╗╚╗╔╝╔═╗╔╗╔═╗ ╔══╗  ╚╗║ ╚╝╔╝║╚╝╔╝║".to_string(),
+                    " ║║ ║╔╗║║══╣ ║║   ║══╣ ║║ ║╔╝╠╣║╔╗╗║╔╗║   ║║ ╔═╝╔╝╔╗╚╗║".to_string(),
+                    " ║╚╗║║═╣╠══║ ║╚╗  ╠══║ ║╚╗║║ ║║║║║║║╚╝║  ╔╝╚╗║║╚═╗║╚═╝║".to_string(),
+                    " ╚═╝╚══╝╚══╝ ╚═╝  ╚══╝ ╚═╝╚╝ ╚╝╚╝╚╝╚═╗║  ╚══╝╚═══╝╚═══╝".to_string(),
+                    "                                   ╔═╝║                ".to_string(),
+                    "                                   ╚══╝                ".to_string(),
+                ],
+            ),
+        ]);
 
         for font in get_fonts() {
             let input = "test string 123";

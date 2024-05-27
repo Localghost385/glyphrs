@@ -1,5 +1,10 @@
 # Changelog
 
+### v0.1.5
+ - added new font (pipes)
+ - optimized message generation
+ - fixed some formatting problems, etc.
+
 ### v0.1.4
  - major restructuring.
  - fonts are now parsed from a toml file, so they are easier to add.
