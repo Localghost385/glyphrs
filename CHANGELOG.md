@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.1.4
+ - major restructuring.
+ - fonts are now parsed from a toml file, so they are easier to add.
+
 ### v0.1.3
  - cargo doesnt like my versioning
 

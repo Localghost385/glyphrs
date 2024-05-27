@@ -1,8 +1,14 @@
 use clap::*;
 
-use crate::fonts::*;
+fn string_to_str(input: Vec<String>) -> Vec<&'static str> {
+    let mut output: Vec<&'static str> = Vec::with_capacity(input.len());
+    for s in input {
+        output.push(Box::leak(s.into_boxed_str()));
+    }
+    output
+}
 
-
+use crate::fonts::font_handling::*;
 
 pub fn clap_parse() -> ArgMatches {
     let cmd = clap::Command::new("cargo")
@@ -19,7 +25,7 @@ pub fn clap_parse() -> ArgMatches {
             .long("font")
             .short('f')
             .default_value("blocks_in_two_lines")
-            .value_parser(get_fonts())
+            .value_parser(string_to_str(get_fonts()))
             .help("set the font"),
 
         )
