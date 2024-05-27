@@ -11,7 +11,10 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -28,9 +31,9 @@ jobs:
         run: cargo test --verbose
 
   publish:
-    runs-on: ubuntu-latest
     needs: build
     if: ${{ needs.build.result == 'success' }}
+    runs-on: ${{ needs.build.outputs.os }}
 
     steps:
       - uses: actions/checkout@v2
