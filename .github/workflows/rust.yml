@@ -33,7 +33,7 @@ jobs:
   publish:
     needs: build
     if: ${{ needs.build.result == 'success' }}
-    runs-on: ${{ needs.build.outputs.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
