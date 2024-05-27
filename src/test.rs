@@ -15,7 +15,7 @@ mod tests {
         )]);
 
         for font in get_fonts() {
-            let input = "test string";
+            let input = "test string 123";
             let mut map_values: Vec<Vec<&str>> = vec![];
             for c in input.chars() {
                 map_values.push(map_search(c, &font));
