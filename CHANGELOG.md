@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.1.7
+ - minor changes and improved test coverage.
+
 ### v0.1.6
  - added option to have a string preceding each line, for example to comment it out. 
 

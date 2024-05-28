@@ -1,4 +1,3 @@
-
 use crate::fonts::font_handling::define_fonts;
 
 pub fn sanitize_input(input: String) -> String {
@@ -11,7 +10,7 @@ pub fn sanitize_input(input: String) -> String {
     output
 }
 
-pub fn map_search(key: char, font: &str) -> Vec<String> {
+pub fn map_search(key: String, font: &str) -> Vec<String> {
     let fonts = define_fonts();
 
     let map = fonts.get(font).unwrap().clone();
@@ -21,7 +20,7 @@ pub fn map_search(key: char, font: &str) -> Vec<String> {
 
     value
 }
-fn conserve_spaces(input: Vec<String>) -> Vec<String> {
+fn remove_blank_lines(input: Vec<String>) -> Vec<String> {
     let mut output: Vec<String> = vec![];
 
     for line in input {
@@ -43,8 +42,8 @@ pub fn string_composite(characters: Vec<Vec<String>>, prefix: String) -> Vec<Str
         output.push(String::new());
     }
 
-    for i in 0..output.len() {
-        output[i] = prefix.to_string();
+    for line in output.iter_mut() {
+        line.clone_from(&prefix);
     }
 
     for character in characters {
@@ -53,7 +52,7 @@ pub fn string_composite(characters: Vec<Vec<String>>, prefix: String) -> Vec<Str
         }
     }
 
-    output = conserve_spaces(output);
+    output = remove_blank_lines(output);
 
     output
 }
@@ -63,7 +62,7 @@ pub fn convert_input(mut input: String, font: String, prefix: String) -> Vec<Str
 
     let mut map_values: Vec<Vec<String>> = vec![];
     for c in input.chars() {
-        map_values.push(map_search(c, &font));
+        map_values.push(map_search(c.to_string(), &font));
     }
     let output: Vec<String> = string_composite(map_values, prefix);
 
@@ -76,35 +75,77 @@ pub mod tests {
     use std::collections::HashMap;
 
     #[test]
-    fn test_string_composite() {
+    fn test_remove_blank_lines() {
+        let input: Vec<String> = vec![
+            " ╔╗          ╔╗ ".to_string(),
+            "╔╝╚╗        ╔╝╚╗".to_string(),
+            "╚╗╔╝╔══╗╔══╗╚╗╔╝".to_string(),
+            " ║║ ║╔╗║║══╣ ║║ ".to_string(),
+            " ║╚╗║║═╣╠══║ ║╚╗".to_string(),
+            " ╚═╝╚══╝╚══╝ ╚═╝".to_string(),
+            "                ".to_string(),
+            "                ".to_string(),
+        ];
+        let expected: Vec<String> = vec![
+            " ╔╗          ╔╗ ".to_string(),
+            "╔╝╚╗        ╔╝╚╗".to_string(),
+            "╚╗╔╝╔══╗╔══╗╚╗╔╝".to_string(),
+            " ║║ ║╔╗║║══╣ ║║ ".to_string(),
+            " ║╚╗║║═╣╠══║ ║╚╗".to_string(),
+            " ╚═╝╚══╝╚══╝ ╚═╝".to_string(),
+        ];
+        let output = remove_blank_lines(input);
+        assert_eq!(output, expected);
+    }
+
+    #[test]
+    fn test_prefix() {
+        let input = "abc";
+        let mut map_values: Vec<Vec<String>> = vec![];
+        for c in input.chars() {
+            map_values.push(map_search(c.to_string(), "blocks_in_two_lines"));
+        }
+
+        assert_eq!(
+            string_composite(map_values.clone(), "".to_string()),
+            vec!["▄▀▄ ██▄ ▄▀▀ ".to_string(), "█▀█ █▄█ ▀▄▄ ".to_string()]
+        );
+        assert_eq!(
+            string_composite(map_values.clone(), "# ".to_string()),
+            vec!["# ▄▀▄ ██▄ ▄▀▀ ".to_string(), "# █▀█ █▄█ ▀▄▄ ".to_string()]
+        );
+    }
+
+    #[test]
+    fn test_message_gen() {
         let expected_map: HashMap<String, Vec<String>> = HashMap::from([
             (
                 "blocks_in_two_lines".to_string(),
                 vec![
-                    "▀█▀ ██▀ ▄▀▀ ▀█▀   ▄▀▀ ▀█▀ █▀▄ █ █▄ █ ▄▀    ▄█ ▀█ ▀██ ".to_string(),
-                    " █  █▄▄ ▄██  █    ▄██  █  █▀▄ █ █ ▀█ ▀▄█    █ █▄ ▄▄█ ".to_string(),
+                    "▄▀▄ ██▄ ▄▀▀ █▀▄ ██▀ █▀ ▄▀  █▄█ █   █ █▄▀ █   █▄ ▄█ █▄ █ ▄▀▄ █▀▄ ▄▀▄ █▀▄ ▄▀▀ ▀█▀ █ █ █ █ █   █ ▀▄▀ ▀▄▀ ▀█▀ ▄█ ▀█ ▀██ █▄ █▄ █▀ ▀█ █▄█ ██ █▀█   █ ▀ ▀ ▀ ▄▀ ▀▄ ".to_string(),
+                    "█▀█ █▄█ ▀▄▄ █▄▀ █▄▄ █▀ ▀▄█ █ █ █ ▀▄█ █ █ █▄▄ █ ▀ █ █ ▀█ ▀▄▀ █▀  ▀▄█ █▀▄ ▄██  █  ▀▄█ ▀▄▀ ▀▄▀▄▀ █ █  █  █▄▄  █ █▄ ▄▄█  █ ▄█ ██  █ █▄█ ▄█ █▄█ ▄ ▄       ▀▄ ▄▀ ".to_string(),
                 ],
             ),
             (
                 "pipes".to_string(),
                 vec![
-                    " ╔╗          ╔╗        ╔╗                 ╔╗ ╔═══╗╔═══╗".to_string(),
-                    "╔╝╚╗        ╔╝╚╗      ╔╝╚╗               ╔╝║ ║╔═╗║║╔═╗║".to_string(),
-                    "╚╗╔╝╔══╗╔══╗╚╗╔╝  ╔══╗╚╗╔╝╔═╗╔╗╔═╗ ╔══╗  ╚╗║ ╚╝╔╝║╚╝╔╝║".to_string(),
-                    " ║║ ║╔╗║║══╣ ║║   ║══╣ ║║ ║╔╝╠╣║╔╗╗║╔╗║   ║║ ╔═╝╔╝╔╗╚╗║".to_string(),
-                    " ║╚╗║║═╣╠══║ ║╚╗  ╠══║ ║╚╗║║ ║║║║║║║╚╝║  ╔╝╚╗║║╚═╗║╚═╝║".to_string(),
-                    " ╚═╝╚══╝╚══╝ ╚═╝  ╚══╝ ╚═╝╚╝ ╚╝╚╝╚╝╚═╗║  ╚══╝╚═══╝╚═══╝".to_string(),
-                    "                                   ╔═╝║                ".to_string(),
-                    "                                   ╚══╝                ".to_string(),
+                    "     ╔╗        ╔╗     ╔═╗    ╔╗       ╔╗  ╔╗                             ╔╗                              ╔╗ ╔═══╗╔═══╗╔╗ ╔╗╔═══╗╔═══╗╔═══╗╔═══╗╔═══╗╔═══╗  ╔╗╔╗╔╗╔╗  ╔═╗╔═╗  ".to_string(),
+                    "     ║║        ║║     ║╔╝    ║║     ╔╗║║  ║║                            ╔╝╚╗                            ╔╝║ ║╔═╗║║╔═╗║║║ ║║║╔══╝║╔══╝║╔═╗║║╔═╗║║╔═╗║║╔═╗║  ║║║║║║║║ ╔╝╔╝╚╗╚╗ ".to_string(),
+                    "╔══╗ ║╚═╗╔══╗╔═╝║╔══╗╔╝╚╗╔══╗║╚═╗╔╗ ╚╝║║╔╗║║ ╔╗╔╗╔═╗ ╔══╗╔══╗╔══╗╔═╗╔══╗╚╗╔╝╔╗╔╗╔╗╔╗╔╗╔╗╔╗╔╗╔╗╔╗ ╔╗╔═══╗╚╗║ ╚╝╔╝║╚╝╔╝║║╚═╝║║╚══╗║╚══╗╚╝╔╝║║╚═╝║║╚═╝║║║ ║║  ║║╚╝╚╝╚╝╔╝╔╝  ╚╗╚╗".to_string(),
+                    "╚ ╗║ ║╔╗║║╔═╝║╔╗║║╔╗║╚╗╔╝║╔╗║║╔╗║╠╣ ╔╗║╚╝╝║║ ║╚╝║║╔╗╗║╔╗║║╔╗║║╔╗║║╔╝║══╣ ║║ ║║║║║╚╝║║╚╝╚╝║╚╬╬╝║║ ║║╠══║║ ║║ ╔═╝╔╝╔╗╚╗║╚══╗║╚══╗║║╔═╗║  ║╔╝║╔═╗║╚══╗║║║ ║║  ╚╝      ║║║    ║║║".to_string(),
+                    "║╚╝╚╗║╚╝║║╚═╗║╚╝║║║═╣ ║║ ║╚╝║║║║║║║ ║║║╔╗╗║╚╗║║║║║║║║║╚╝║║╚╝║║╚╝║║║ ╠══║ ║╚╗║╚╝║╚╗╔╝╚╗╔╗╔╝╔╬╬╗║╚═╝║║║══╣╔╝╚╗║║╚═╗║╚═╝║   ║║╔══╝║║╚═╝║  ║║ ║╚═╝║╔══╝║║╚═╝║╔╗╔╗      ║║║    ║║║".to_string(),
+                    "╚═══╝╚══╝╚══╝╚══╝╚══╝ ╚╝ ╚═╗║╚╝╚╝╚╝ ║║╚╝╚╝╚═╝╚╩╩╝╚╝╚╝╚══╝║╔═╝╚═╗║╚╝ ╚══╝ ╚═╝╚══╝ ╚╝  ╚╝╚╝ ╚╝╚╝╚═╗╔╝╚═══╝╚══╝╚═══╝╚═══╝   ╚╝╚═══╝╚═══╝  ╚╝ ╚═══╝╚═══╝╚═══╝╚╝╚╝      ╚╗╚╗  ╔╝╔╝".to_string(),
+                    "                         ╔═╝║      ╔╝║                   ║║    ║║                             ╔═╝║                                                                  ╚╗╚╗╔╝╔╝ ".to_string(),
+                    "                         ╚══╝      ╚═╝                   ╚╝    ╚╝                             ╚══╝                                                                   ╚═╝╚═╝  ".to_string(),
                 ],
             ),
         ]);
 
         for font in get_fonts() {
-            let input = "test string 123";
+            let input = "abcdefghijklmnopqrstuvwxyz1234567890.!\"\'()";
             let mut map_values: Vec<Vec<String>> = vec![];
             for c in input.chars() {
-                map_values.push(map_search(c, &font.to_string()));
+                map_values.push(map_search(c.to_string(), &font.to_string()));
             }
             let output: Vec<String> = string_composite(map_values, "".to_string());
             let expected: Vec<String> = expected_map.get(&font).unwrap().clone();
