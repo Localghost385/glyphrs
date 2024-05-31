@@ -1,6 +1,8 @@
 use serde::Deserialize;
 use std::collections::HashMap;
 
+// ▄▀▀ ▀█▀ █▀▄ █ █ ▄▀▀ ▀█▀ ▄▀▀   █▀ ▄▀▄ █▀▄   ▀█▀ ▄▀▄ █▄ ▄█ █     █▄█ ▄▀▄ █▄ █ █▀▄ █   █ █▄ █ ▄▀  
+// ▄██  █  █▀▄ ▀▄█ ▀▄▄  █  ▄██   █▀ ▀▄▀ █▀▄    █  ▀▄▀ █ ▀ █ █▄▄   █ █ █▀█ █ ▀█ █▄▀ █▄▄ █ █ ▀█ ▀▄█ 
 #[derive(Debug, Deserialize)]
 struct Outer {
     fonts: Vec<Font>,
@@ -13,6 +15,8 @@ struct Font {
     key_values: Vec<Vec<String>>,
 }
 
+// ▄▀  ██▀ ▀█▀   ▄▀▄ █   █     █▀ ▄▀▄ █▄ █ ▀█▀ ▄▀▀ 
+// ▀▄█ █▄▄  █    █▀█ █▄▄ █▄▄   █▀ ▀▄▀ █ ▀█  █  ▄██ 
 pub fn get_fonts() -> Vec<String> {
     let fonts = define_fonts();
     let mut font_list: Vec<String> = vec![];
@@ -27,6 +31,8 @@ pub fn get_fonts() -> Vec<String> {
     font_list
 }
 
+// ▄▀▀ ▄▀▄ █ █ █▀▄ ▄▀▀ ██▀   █▀ ▄▀▄ █▄ █ ▀█▀   █▀ █ █   ██▀ 
+// ▄██ ▀▄▀ ▀▄█ █▀▄ ▀▄▄ █▄▄   █▀ ▀▄▀ █ ▀█  █    █▀ █ █▄▄ █▄▄ 
 fn get_font_file() -> &'static str {
     let file = include_bytes!("./fonts.toml");
     let contents = std::str::from_utf8(file).expect("Failed to read config.toml");
@@ -34,6 +40,8 @@ fn get_font_file() -> &'static str {
     contents
 }
 
+// ▄▀  ██▀ ▀█▀   █▀ ▄▀▄ █▄ █ ▀█▀ ▄▀▀   █▀ █▀▄ ▄▀▄ █▄ ▄█   █▀ █ █   ██▀ 
+// ▀▄█ █▄▄  █    █▀ ▀▄▀ █ ▀█  █  ▄██   █▀ █▀▄ ▀▄▀ █ ▀ █   █▀ █ █▄▄ █▄▄ 
 pub fn define_fonts() -> HashMap<String, HashMap<String, Vec<String>>> {
     let mut fonts: HashMap<String, HashMap<String, Vec<String>>> = HashMap::new();
     let contents = get_font_file();
@@ -52,6 +60,8 @@ pub fn define_fonts() -> HashMap<String, HashMap<String, Vec<String>>> {
     fonts
 }
 
+// ▀█▀ ██▀ ▄▀▀ ▀█▀ ▄▀▀
+//  █  █▄▄ ▄██  █  ▄██
 #[cfg(test)]
 pub mod tests {
     use std::collections::HashMap;

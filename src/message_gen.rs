@@ -1,5 +1,7 @@
 use crate::fonts::font_handling::define_fonts;
 
+// ▄▀▀ ▄▀▄ █▄ █ █ █ ██▀ █▀▄ ▀█▀   ▀█▀ ▄▀▄   █   ▄▀▄ █   █ ██▀ █▀▄ ▄▀▀ ▄▀▄ ▄▀▀ ██▀ 
+// ▀▄▄ ▀▄▀ █ ▀█ ▀▄▀ █▄▄ █▀▄  █     █  ▀▄▀   █▄▄ ▀▄▀ ▀▄▀▄▀ █▄▄ █▀▄ ▀▄▄ █▀█ ▄██ █▄▄ 
 pub fn sanitize_input(input: String) -> String {
     let mut output = input.clone();
     for characters in input.chars() {
@@ -10,6 +12,8 @@ pub fn sanitize_input(input: String) -> String {
     output
 }
 
+// ▄▀  ██▀ ▀█▀   ▄▀▀ █▄█ ▄▀▄ █▀▄ ▄▀▄ ▄▀▀ ▀█▀ ██▀ █▀▄   █▀ █▀▄ ▄▀▄ █▄ ▄█   █▄ ▄█ ▄▀▄ █▀▄
+// ▀▄█ █▄▄  █    ▀▄▄ █ █ █▀█ █▀▄ █▀█ ▀▄▄  █  █▄▄ █▀▄   █▀ █▀▄ ▀▄▀ █ ▀ █   █ ▀ █ █▀█ █▀
 pub fn map_search(key: String, font: &str) -> Vec<String> {
     let fonts = define_fonts();
 
@@ -20,21 +24,9 @@ pub fn map_search(key: String, font: &str) -> Vec<String> {
 
     value
 }
-fn remove_blank_lines(input: Vec<String>) -> Vec<String> {
-    let mut output: Vec<String> = vec![];
 
-    for line in input {
-        // if every character is a space, then remove the line
-        if line.chars().all(|c| c == ' ') {
-            continue;
-        } else {
-            output.push(line);
-        }
-    }
-
-    output
-}
-
+// ▄▀▀ ▄▀▄ █▄ ▄█ ██▄ █ █▄ █ ██▀   ▄▀▀ █▄█ ▄▀▄ █▀▄ ▄▀▄ ▄▀▀ ▀█▀ ██▀ █▀▄ ▄▀▀
+// ▀▄▄ ▀▄▀ █ ▀ █ █▄█ █ █ ▀█ █▄▄   ▀▄▄ █ █ █▀█ █▀▄ █▀█ ▀▄▄  █  █▄▄ █▀▄ ▄██
 pub fn string_composite(characters: Vec<Vec<String>>, prefix: String) -> Vec<String> {
     let mut output: Vec<String> = vec![];
 
@@ -52,11 +44,28 @@ pub fn string_composite(characters: Vec<Vec<String>>, prefix: String) -> Vec<Str
         }
     }
 
-    output = remove_blank_lines(output);
+    remove_blank_lines(output)
+}
+
+// ▄▀▀ ▄▀▄ █▄ █ █▀▄ ██▀ █▄ █ ▄▀▀ ██▀   ▄▀▄ █ █ ▀█▀ █▀▄ █ █ ▀█▀ 
+// ▀▄▄ ▀▄▀ █ ▀█ █▄▀ █▄▄ █ ▀█ ▄██ █▄▄   ▀▄▀ ▀▄█  █  █▀  ▀▄█  █  
+fn remove_blank_lines(input: Vec<String>) -> Vec<String> {
+    let mut output: Vec<String> = vec![];
+
+    for line in input {
+        // if every character is a space, then remove the line
+        if line.chars().all(|c| c == ' ') {
+            continue;
+        } else {
+            output.push(line);
+        }
+    }
 
     output
 }
 
+// ▄▀▀ ▀█▀ █▀▄ █ █▄ █ ▄▀    ▀█▀ ▄▀▄ ▄▀  ██▀ ▀█▀ █▄█ ██▀ █▀▄   ▀█▀ █▄█ ██▀   ▄▀▄ ██▄ ▄▀▄ █ █ ██▀ 
+// ▄██  █  █▀▄ █ █ ▀█ ▀▄█    █  ▀▄▀ ▀▄█ █▄▄  █  █ █ █▄▄ █▀▄    █  █ █ █▄▄   █▀█ █▄█ ▀▄▀ ▀▄▀ █▄▄ 
 pub fn convert_input(mut input: String, font: String, prefix: String) -> Vec<String> {
     input = sanitize_input(input);
 
@@ -69,6 +78,8 @@ pub fn convert_input(mut input: String, font: String, prefix: String) -> Vec<Str
     output
 }
 
+// ▀█▀ ██▀ ▄▀▀ ▀█▀ ▄▀▀
+//  █  █▄▄ ▄██  █  ▄██
 #[cfg(test)]
 pub mod tests {
     use crate::{fonts::font_handling::get_fonts, message_gen::*};

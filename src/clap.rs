@@ -1,5 +1,9 @@
-use clap::*;
+use crate::fonts::font_handling::get_fonts;
+use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
 
+
+// █▄█ ██▀ █   █▀▄ ██▀ █▀▄   █▀ █ █ █▄ █ ▄▀▀ ▀█▀ █ ▄▀▄ █▄ █ ▄▀▀ 
+// █ █ █▄▄ █▄▄ █▀  █▄▄ █▀▄   █▀ ▀▄█ █ ▀█ ▀▄▄  █  █ ▀▄▀ █ ▀█ ▄██ 
 fn string_to_str(input: Vec<String>) -> Vec<&'static str> {
     let mut output: Vec<&'static str> = Vec::with_capacity(input.len());
     for s in input {
@@ -8,9 +12,10 @@ fn string_to_str(input: Vec<String>) -> Vec<&'static str> {
     output
 }
 
-use crate::fonts::font_handling::*;
 
-pub fn clap_parse() -> ArgMatches {
+// █▀▄ ▄▀▄ █▀▄ ▄▀▀ ██▀   █ █▄ █ █▀▄ █ █ ▀█▀ 
+// █▀  █▀█ █▀▄ ▄██ █▄▄   █ █ ▀█ █▀  ▀▄█  █  
+pub fn clap_parse() -> Command {
     let cmd = clap::Command::new("cargo")
         .bin_name("glyphrs")
 		.before_help("-----------------------------\n▄▀  █   ▀▄▀ █▀▄ █▄█   █▀▄ ▄▀▀\n▀▄█ █▄▄  █  █▀  █ █ ▄ █▀▄ ▄██ \n-----------------------------")
@@ -18,8 +23,11 @@ pub fn clap_parse() -> ArgMatches {
 		.arg(
 			Arg::new("input")
             .required_unless_present("version")
-            .help("the string to be converted"),
-		)
+            .help("the string to be converted")
+            .value_hint(ValueHint::CommandString),
+		)    
+        // ▄▀▄ █▀▄ ▄▀  ▄▀▀ 
+        // █▀█ █▀▄ ▀▄█ ▄██ 
         .arg(
             Arg::new("font")
             .long("font")
@@ -27,7 +35,8 @@ pub fn clap_parse() -> ArgMatches {
             .default_value("blocks_in_two_lines")
             .value_parser(string_to_str(get_fonts()))
             .help_heading("Output")
-            .help("set the font"),
+            .help("set the font")
+            .value_hint(ValueHint::CommandString),
 
         )
         .arg(
@@ -36,21 +45,26 @@ pub fn clap_parse() -> ArgMatches {
             .short('p')
             .default_value("")
             .help_heading("Output")
-            .help("set the characters preceding each line, for example \"# \""),
+            .help("set the characters preceding each line, for example \"# \"")
+            .value_hint(ValueHint::CommandString),
         )
         .arg(
             Arg::new("version")
             .long("version")
             .short('v')
             .action(ArgAction::SetTrue)
-            .help("Print version information"),
-        );
+            .help("Print version information")
+        ); 
 
-    cmd.get_matches()
+    cmd
+
 }
 
+// ▄▀▄ █▀▄ ▄▀    █▄█ ▄▀▄ █▄ █ █▀▄ █   █ █▄ █ ▄▀  
+// █▀█ █▀▄ ▀▄█   █ █ █▀█ █ ▀█ █▄▀ █▄▄ █ █ ▀█ ▀▄█ 
 pub fn handle_args() -> ArgMatches {
-    let matches: ArgMatches = clap_parse();
+    let matches: ArgMatches = clap_parse().get_matches();
+
     let version: bool = *matches.get_one("version").unwrap();
     if version {
         println!("glyphrs v{}", env!("CARGO_PKG_VERSION"));

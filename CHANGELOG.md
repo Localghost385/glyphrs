@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.1.8
+ - organisation
+
 ### v0.1.7
  - minor changes and improved test coverage.
 
