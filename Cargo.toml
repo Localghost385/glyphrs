@@ -1,9 +1,18 @@
 [package]
 name = "glyphrs"
+<<<<<<< HEAD
 version = "0.1.8"
+=======
+version = "1.0.4"
+>>>>>>> extension
 edition = "2021"
-license = "MIT"
 description = "A text art generator written in Rust"
+license = "MIT"
+
+[lib]
+name = "glyphrs_core"
+path = "./core/core.rs"
+crate-type = ["cdylib", "rlib"]
 
 [[bin]]
 name = "glyphrs"
@@ -15,6 +24,10 @@ path = "./core/core.rs"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-clap = "4.5.4"
-serde = { version = "1.0.203", features = ["derive"] }
-toml = "0.8.13"
+regex = "1.9.3"
+sqlparser = "0.45.0"
+itertools = "0.11.0"
+wasm-bindgen = "0.2.87"
+glyphrs = "0.1.7"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
