@@ -1,4 +1,4 @@
-use glyphrs::{clap, message_gen::*};
+use glyphrs_core::{clap, message_gen::*};
 
 fn main() {
     // █▄█ ▄▀▄ █▄ █ █▀▄ █   ██▀   ▄▀▄ █▀▄ ▄▀  ▄▀▀

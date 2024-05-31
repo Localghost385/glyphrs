@@ -5,6 +5,15 @@ edition = "2021"
 license = "MIT"
 description = "A text art generator written in Rust"
 
+[[bin]]
+name = "glyphrs"
+path = "./cli/main.rs"
+
+[lib]
+name = "glyphrs_core"
+path = "./core/core.rs"
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
 clap = "4.5.4"
 serde = { version = "1.0.203", features = ["derive"] }
