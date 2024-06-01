@@ -20,11 +20,9 @@ export async function activate(context: vscode.ExtensionContext) {
           })
           .then(async (contentValue) => {
             content = contentValue
+            const fontOptions = module.get_fonts()
             await vscode.window
-              .showInputBox({
-                prompt: 'font',
-                placeHolder: 'font',
-              })
+              .showQuickPick([...fontOptions])
               .then(async (fontValue) => {
                 font = fontValue
                 await vscode.window

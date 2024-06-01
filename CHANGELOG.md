@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.2.1
+ - massively improved extension flow by replacing font step with a dropdown
+
 ### v0.2.0
  - complete restructure to combine vscode extension branch
  - seperated cli binary and the core library to make integration with library easier 

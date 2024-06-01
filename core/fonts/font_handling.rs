@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use std::collections::HashMap;
+use wasm_bindgen::prelude::*;
 
 // ▄▀▀ ▀█▀ █▀▄ █ █ ▄▀▀ ▀█▀ ▄▀▀   █▀ ▄▀▄ █▀▄   ▀█▀ ▄▀▄ █▄ ▄█ █     █▄█ ▄▀▄ █▄ █ █▀▄ █   █ █▄ █ ▄▀  
 // ▄██  █  █▀▄ ▀▄█ ▀▄▄  █  ▄██   █▀ ▀▄▀ █▀▄    █  ▀▄▀ █ ▀ █ █▄▄   █ █ █▀█ █ ▀█ █▄▀ █▄▄ █ █ ▀█ ▀▄█ 
@@ -17,6 +18,7 @@ struct Font {
 
 // ▄▀  ██▀ ▀█▀   ▄▀▄ █   █     █▀ ▄▀▄ █▄ █ ▀█▀ ▄▀▀ 
 // ▀▄█ █▄▄  █    █▀█ █▄▄ █▄▄   █▀ ▀▄▀ █ ▀█  █  ▄██ 
+#[wasm_bindgen]
 pub fn get_fonts() -> Vec<String> {
     let fonts = define_fonts();
     let mut font_list: Vec<String> = vec![];

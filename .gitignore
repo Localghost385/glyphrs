@@ -2,7 +2,7 @@
 /dist
 /memo
 /vscode_extension/node_modules
-/vscode_extension/fmt_core
+/vscode_extension/core
 /vscode_extension/dist
 /package
 
