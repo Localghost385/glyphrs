@@ -9,8 +9,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
     import('../core').then(async (module) => {
       try {
-        //take input from the user
-
         let content: string | undefined
         let font: string | undefined
         let prefix: string | undefined
@@ -49,10 +47,15 @@ export async function activate(context: vscode.ExtensionContext) {
         if (!prefix) {
           prefix = ''
         }
-        const result = module.glyphrs_wrapper(content, font, prefix)
+        const result = module.convert_input(content, font, prefix)
+        let output = ''
+        result.forEach((line) => {
+          output += line + '\n'
+        })
+
         editor.edit((edit) => {
           //insert the result at the current cursor position
-          edit.insert(editor.selection.active, result)
+          edit.insert(editor.selection.active, output)
         })
       } catch (e) {
         vscode.window.showErrorMessage(['cannot format the file.', e].join(' '))

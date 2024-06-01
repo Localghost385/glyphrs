@@ -1,8 +1,9 @@
 use crate::fonts::font_handling::define_fonts;
+use wasm_bindgen::prelude::*;
 
-// ▄▀▀ ▄▀▄ █▄ █ █ █ ██▀ █▀▄ ▀█▀   ▀█▀ ▄▀▄   █   ▄▀▄ █   █ ██▀ █▀▄ ▄▀▀ ▄▀▄ ▄▀▀ ██▀ 
-// ▀▄▄ ▀▄▀ █ ▀█ ▀▄▀ █▄▄ █▀▄  █     █  ▀▄▀   █▄▄ ▀▄▀ ▀▄▀▄▀ █▄▄ █▀▄ ▀▄▄ █▀█ ▄██ █▄▄ 
-pub fn sanitize_input(input: String) -> String {
+// ▄▀▀ ▄▀▄ █▄ █ █ █ ██▀ █▀▄ ▀█▀   ▀█▀ ▄▀▄   █   ▄▀▄ █   █ ██▀ █▀▄ ▄▀▀ ▄▀▄ ▄▀▀ ██▀
+// ▀▄▄ ▀▄▀ █ ▀█ ▀▄▀ █▄▄ █▀▄  █     █  ▀▄▀   █▄▄ ▀▄▀ ▀▄▀▄▀ █▄▄ █▀▄ ▀▄▄ █▀█ ▄██ █▄▄
+fn sanitize_input(input: String) -> String {
     let mut output = input.clone();
     for characters in input.chars() {
         if characters.is_alphabetic() {
@@ -14,7 +15,7 @@ pub fn sanitize_input(input: String) -> String {
 
 // ▄▀  ██▀ ▀█▀   ▄▀▀ █▄█ ▄▀▄ █▀▄ ▄▀▄ ▄▀▀ ▀█▀ ██▀ █▀▄   █▀ █▀▄ ▄▀▄ █▄ ▄█   █▄ ▄█ ▄▀▄ █▀▄
 // ▀▄█ █▄▄  █    ▀▄▄ █ █ █▀█ █▀▄ █▀█ ▀▄▄  █  █▄▄ █▀▄   █▀ █▀▄ ▀▄▀ █ ▀ █   █ ▀ █ █▀█ █▀
-pub fn map_search(key: String, font: &str) -> Vec<String> {
+fn map_search(key: String, font: &str) -> Vec<String> {
     let fonts = define_fonts();
 
     let map = fonts.get(font).unwrap().clone();
@@ -27,7 +28,7 @@ pub fn map_search(key: String, font: &str) -> Vec<String> {
 
 // ▄▀▀ ▄▀▄ █▄ ▄█ ██▄ █ █▄ █ ██▀   ▄▀▀ █▄█ ▄▀▄ █▀▄ ▄▀▄ ▄▀▀ ▀█▀ ██▀ █▀▄ ▄▀▀
 // ▀▄▄ ▀▄▀ █ ▀ █ █▄█ █ █ ▀█ █▄▄   ▀▄▄ █ █ █▀█ █▀▄ █▀█ ▀▄▄  █  █▄▄ █▀▄ ▄██
-pub fn string_composite(characters: Vec<Vec<String>>, prefix: String) -> Vec<String> {
+fn string_composite(characters: Vec<Vec<String>>, prefix: String) -> Vec<String> {
     let mut output: Vec<String> = vec![];
 
     for _ in 0..characters[0].len() {
@@ -47,8 +48,8 @@ pub fn string_composite(characters: Vec<Vec<String>>, prefix: String) -> Vec<Str
     remove_blank_lines(output)
 }
 
-// ▄▀▀ ▄▀▄ █▄ █ █▀▄ ██▀ █▄ █ ▄▀▀ ██▀   ▄▀▄ █ █ ▀█▀ █▀▄ █ █ ▀█▀ 
-// ▀▄▄ ▀▄▀ █ ▀█ █▄▀ █▄▄ █ ▀█ ▄██ █▄▄   ▀▄▀ ▀▄█  █  █▀  ▀▄█  █  
+// ▄▀▀ ▄▀▄ █▄ █ █▀▄ ██▀ █▄ █ ▄▀▀ ██▀   ▄▀▄ █ █ ▀█▀ █▀▄ █ █ ▀█▀
+// ▀▄▄ ▀▄▀ █ ▀█ █▄▀ █▄▄ █ ▀█ ▄██ █▄▄   ▀▄▀ ▀▄█  █  █▀  ▀▄█  █
 fn remove_blank_lines(input: Vec<String>) -> Vec<String> {
     let mut output: Vec<String> = vec![];
 
@@ -64,8 +65,9 @@ fn remove_blank_lines(input: Vec<String>) -> Vec<String> {
     output
 }
 
-// ▄▀▀ ▀█▀ █▀▄ █ █▄ █ ▄▀    ▀█▀ ▄▀▄ ▄▀  ██▀ ▀█▀ █▄█ ██▀ █▀▄   ▀█▀ █▄█ ██▀   ▄▀▄ ██▄ ▄▀▄ █ █ ██▀ 
-// ▄██  █  █▀▄ █ █ ▀█ ▀▄█    █  ▀▄▀ ▀▄█ █▄▄  █  █ █ █▄▄ █▀▄    █  █ █ █▄▄   █▀█ █▄█ ▀▄▀ ▀▄▀ █▄▄ 
+// ▄▀▀ ▀█▀ █▀▄ █ █▄ █ ▄▀    ▀█▀ ▄▀▄ ▄▀  ██▀ ▀█▀ █▄█ ██▀ █▀▄   ▀█▀ █▄█ ██▀   ▄▀▄ ██▄ ▄▀▄ █ █ ██▀
+// ▄██  █  █▀▄ █ █ ▀█ ▀▄█    █  ▀▄▀ ▀▄█ █▄▄  █  █ █ █▄▄ █▀▄    █  █ █ █▄▄   █▀█ █▄█ ▀▄▀ ▀▄▀ █▄▄
+#[wasm_bindgen]
 pub fn convert_input(mut input: String, font: String, prefix: String) -> Vec<String> {
     input = sanitize_input(input);
 

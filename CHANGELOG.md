@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.2.0
+ - complete restructure to combine vscode extension branch
+ - seperated cli binary and the core library to make integration with library easier 
+
 ### v0.1.8
  - organisation
 

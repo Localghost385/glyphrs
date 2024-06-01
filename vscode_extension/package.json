@@ -2,13 +2,13 @@
   "name": "glyphrs",
   "displayName": "glyph.rs",
   "description": "A text art generator written in Rust",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "engines": {
     "vscode": "^1.77.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/localhost385/glyphrs.git"
+    "url": "https://github.com/localghost385/glyphrs.git"
   },
   "license": "MIT",
   "publisher": "localghost385",
