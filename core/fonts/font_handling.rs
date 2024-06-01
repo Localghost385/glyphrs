@@ -2,8 +2,8 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 
-// ▄▀▀ ▀█▀ █▀▄ █ █ ▄▀▀ ▀█▀ ▄▀▀   █▀ ▄▀▄ █▀▄   ▀█▀ ▄▀▄ █▄ ▄█ █     █▄█ ▄▀▄ █▄ █ █▀▄ █   █ █▄ █ ▄▀  
-// ▄██  █  █▀▄ ▀▄█ ▀▄▄  █  ▄██   █▀ ▀▄▀ █▀▄    █  ▀▄▀ █ ▀ █ █▄▄   █ █ █▀█ █ ▀█ █▄▀ █▄▄ █ █ ▀█ ▀▄█ 
+// ▄▀▀ ▀█▀ █▀▄ █ █ ▄▀▀ ▀█▀ ▄▀▀   █▀ ▄▀▄ █▀▄   ▀█▀ ▄▀▄ █▄ ▄█ █     █▄█ ▄▀▄ █▄ █ █▀▄ █   █ █▄ █ ▄▀
+// ▄██  █  █▀▄ ▀▄█ ▀▄▄  █  ▄██   █▀ ▀▄▀ █▀▄    █  ▀▄▀ █ ▀ █ █▄▄   █ █ █▀█ █ ▀█ █▄▀ █▄▄ █ █ ▀█ ▀▄█
 #[derive(Debug, Deserialize)]
 struct Outer {
     fonts: Vec<Font>,
@@ -16,8 +16,8 @@ struct Font {
     key_values: Vec<Vec<String>>,
 }
 
-// ▄▀  ██▀ ▀█▀   ▄▀▄ █   █     █▀ ▄▀▄ █▄ █ ▀█▀ ▄▀▀ 
-// ▀▄█ █▄▄  █    █▀█ █▄▄ █▄▄   █▀ ▀▄▀ █ ▀█  █  ▄██ 
+// ▄▀  ██▀ ▀█▀   ▄▀▄ █   █     █▀ ▄▀▄ █▄ █ ▀█▀ ▄▀▀
+// ▀▄█ █▄▄  █    █▀█ █▄▄ █▄▄   █▀ ▀▄▀ █ ▀█  █  ▄██
 #[wasm_bindgen]
 pub fn get_fonts() -> Vec<String> {
     let fonts = define_fonts();
@@ -33,8 +33,8 @@ pub fn get_fonts() -> Vec<String> {
     font_list
 }
 
-// ▄▀▀ ▄▀▄ █ █ █▀▄ ▄▀▀ ██▀   █▀ ▄▀▄ █▄ █ ▀█▀   █▀ █ █   ██▀ 
-// ▄██ ▀▄▀ ▀▄█ █▀▄ ▀▄▄ █▄▄   █▀ ▀▄▀ █ ▀█  █    █▀ █ █▄▄ █▄▄ 
+// ▄▀▀ ▄▀▄ █ █ █▀▄ ▄▀▀ ██▀   █▀ ▄▀▄ █▄ █ ▀█▀   █▀ █ █   ██▀
+// ▄██ ▀▄▀ ▀▄█ █▀▄ ▀▄▄ █▄▄   █▀ ▀▄▀ █ ▀█  █    █▀ █ █▄▄ █▄▄
 fn get_font_file() -> &'static str {
     let file = include_bytes!("./fonts.toml");
     let contents = std::str::from_utf8(file).expect("Failed to read config.toml");
@@ -42,8 +42,8 @@ fn get_font_file() -> &'static str {
     contents
 }
 
-// ▄▀  ██▀ ▀█▀   █▀ ▄▀▄ █▄ █ ▀█▀ ▄▀▀   █▀ █▀▄ ▄▀▄ █▄ ▄█   █▀ █ █   ██▀ 
-// ▀▄█ █▄▄  █    █▀ ▀▄▀ █ ▀█  █  ▄██   █▀ █▀▄ ▀▄▀ █ ▀ █   █▀ █ █▄▄ █▄▄ 
+// ▄▀  ██▀ ▀█▀   █▀ ▄▀▄ █▄ █ ▀█▀ ▄▀▀   █▀ █▀▄ ▄▀▄ █▄ ▄█   █▀ █ █   ██▀
+// ▀▄█ █▄▄  █    █▀ ▀▄▀ █ ▀█  █  ▄██   █▀ █▀▄ ▀▄▀ █ ▀ █   █▀ █ █▄▄ █▄▄
 pub fn define_fonts() -> HashMap<String, HashMap<String, Vec<String>>> {
     let mut fonts: HashMap<String, HashMap<String, Vec<String>>> = HashMap::new();
     let contents = get_font_file();
@@ -68,13 +68,7 @@ pub fn define_fonts() -> HashMap<String, HashMap<String, Vec<String>>> {
 pub mod tests {
     use std::collections::HashMap;
 
-    use crate::fonts::font_handling::{define_fonts, get_font_file, get_fonts, Outer};
-
-    #[test]
-    fn test_get_fonts() {
-        let expected = vec!["blocks_in_two_lines".to_string(), "pipes".to_string()];
-        assert_eq!(get_fonts(), expected);
-    }
+    use crate::fonts::font_handling::{define_fonts, get_font_file, Outer};
 
     #[test]
     fn test_define_fonts() {

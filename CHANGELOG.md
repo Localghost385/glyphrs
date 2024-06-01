@@ -1,5 +1,8 @@
 # Changelog
 
+### v0.2.2
+ - added now font (shadow)
+
 ### v0.2.1
  - massively improved extension flow by replacing font step with a dropdown
 
