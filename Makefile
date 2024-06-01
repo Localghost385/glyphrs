@@ -8,5 +8,11 @@ gen-wasm-for-extension:
 build-extension:
 	yarn --cwd vscode_extension install
 	yarn --cwd vscode_extension run package
+	rm -rf package
 	mkdir package
 	cd vscode_extension && vsce package --out ../package
+
+publish-extension:
+	make build-extension
+	cd vscode_extension && ./publish.sh
+	

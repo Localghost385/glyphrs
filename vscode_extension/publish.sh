@@ -1,0 +1,1 @@
+npx ovsx publish -p $(< token.txt)
