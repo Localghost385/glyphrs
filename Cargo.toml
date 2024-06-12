@@ -16,6 +16,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 clap = "4.5.4"
+clap_complete = "4.5.5"
 serde = { version = "1.0.203", features = ["derive"] }
 toml = "0.8.13"
 wasm-bindgen = "0.2.87"

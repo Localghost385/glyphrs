@@ -1,5 +1,7 @@
-use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
+use clap::{value_parser, Arg, ArgAction, ArgMatches, Command, ValueHint};
+use clap_complete::{generate, Generator, Shell};
 use glyphrs_core::{fonts::font_handling::get_fonts, message_gen::convert_input};
+use std::io;
 
 // █▄█ ██▀ █   █▀▄ ██▀ █▀▄   █▀ █ █ █▄ █ ▄▀▀ ▀█▀ █ ▄▀▄ █▄ █ ▄▀▀
 // █ █ █▄▄ █▄▄ █▀  █▄▄ █▀▄   █▀ ▀▄█ █ ▀█ ▀▄▄  █  █ ▀▄▀ █ ▀█ ▄██
@@ -26,7 +28,7 @@ pub fn clap_parse() -> Command {
         .about("A text art generator written in Rust")
         .arg(
             Arg::new("input")
-                .required_unless_present("version")
+                .required_unless_present_any(vec!["version", "generator"])
                 .help("the string to be converted")
                 .value_hint(ValueHint::CommandString),
         )
@@ -57,14 +59,23 @@ pub fn clap_parse() -> Command {
                 .short('v')
                 .action(ArgAction::SetTrue)
                 .help("Print version information"),
+        )
+        .arg(
+            Arg::new("generator")
+                .long("generate")
+                .value_parser(value_parser!(Shell)),
         );
 
     cmd
 }
 
-// ▄▀▄ █▀▄ ▄▀    █▄█ ▄▀▄ █▄ █ █▀▄ █   █ █▄ █ ▄▀
-// █▀█ █▀▄ ▀▄█   █ █ █▀█ █ ▀█ █▄▀ █▄▄ █ █ ▀█ ▀▄█
-pub fn handle_args() -> ArgMatches {
+fn print_completions<G: Generator>(gen: G, cmd: &mut Command) {
+    generate(gen, cmd, "glyphrs".to_string(), &mut io::stdout());
+}
+
+fn main() {
+    // █▄█ ▄▀▄ █▄ █ █▀▄ █   ██▀   ▄▀▄ █▀▄ ▄▀  ▄▀▀
+    // █ █ █▀█ █ ▀█ █▄▀ █▄▄ █▄▄   █▀█ █▀▄ ▀▄█ ▄██
     let matches: ArgMatches = clap_parse().get_matches();
 
     let version: bool = *matches.get_one("version").unwrap();
@@ -72,17 +83,20 @@ pub fn handle_args() -> ArgMatches {
         println!("glyphrs v{}", env!("CARGO_PKG_VERSION"));
         std::process::exit(0);
     }
+    
+    if let Some(generator) = matches.get_one::<Shell>("generator") {
+        let mut cmd = clap_parse();
+        eprintln!("Generating completion file for {generator}...");
+        print_completions(*generator, &mut cmd);
+        std::process::exit(0);
+    }
 
-    matches
-}
-
-fn main() {
-    // █▄█ ▄▀▄ █▄ █ █▀▄ █   ██▀   ▄▀▄ █▀▄ ▄▀  ▄▀▀
-    // █ █ █▀█ █ ▀█ █▄▀ █▄▄ █▄▄   █▀█ █▀▄ ▀▄█ ▄██
-    let matches = handle_args();
     let input: String = matches.get_one::<String>("input").unwrap().to_string();
     let font: String = matches.get_one::<String>("font").unwrap().to_string();
     let prefix: String = matches.get_one::<String>("prefix").unwrap().to_string();
+
+
+   
 
     // ▄▀  ██▀ █▄ █ ██▀ █▀▄ ▄▀▄ ▀█▀ ██▀   █▄ ▄█ ██▀ ▄▀▀ ▄▀▀ ▄▀▄ ▄▀  ██▀
     // ▀▄█ █▄▄ █ ▀█ █▄▄ █▀▄ █▀█  █  █▄▄   █ ▀ █ █▄▄ ▄██ ▄██ █▀█ ▀▄█ █▄▄
